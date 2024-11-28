@@ -6,8 +6,12 @@
 
 {% block body %}
     <h2>{{ wish.title }}</h2>
-    <div>{{ wish.description }}</div>
-    <div>{{ wish.author }}</div>
-    <div>{{ wish.dateCreated | date("Y-m-d")}}</div>
+    <div>Description : {{ wish.description }}</div>
+    <div>Author : {{ wish.author }}</div>
+    <div>Created at : {{ wish.dateCreated | date("Y-m-d")}}</div>
+    <div>
+        <a href="{{ path('wish_update', {'id': wish.id}) }}"><button>Update</button></a>
+        <a href="{{ path('wish_delete', {'id': wish.id}) }}"><button>Delete</button></a>
+    </div>
 {% endblock %}
 
