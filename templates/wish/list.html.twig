@@ -5,7 +5,7 @@
     <section>
         {% for wish in wishes %}
             <a href="{{ path('wish_detail', {'id': wish.id}) }}">
-                <div>{{ wish.title }}</div>
+                <div>{{ wish.title }} [{{ wish.category.name }}]</div>
             </a>
         {% endfor %}
     </section>
