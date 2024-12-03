@@ -171,3 +171,22 @@ textarea{
 .seasons{
     margin-top: 15px;
 }
+
+.comment {
+    border: 1px solid white;
+    padding: 10px;
+    width: auto;
+}
+
+.comment div {
+    margin: 5px 0;
+}
+
+.comment-rating {
+    display: flex;
+}
+
+.comment-rating img {
+    width: 10px;
+    height: auto;
+}

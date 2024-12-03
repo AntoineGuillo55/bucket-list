@@ -1,0 +1,11 @@
+<h2>
+    {% block formTitle %}
+    {% endblock %}
+</h2>
+{{ form_start(commentForm) }}
+    {{ form_widget(commentForm) }}
+<button>
+    {% block formSubmitLabel %}
+    {% endblock %}
+</button>
+{{ form_end(commentForm) }}

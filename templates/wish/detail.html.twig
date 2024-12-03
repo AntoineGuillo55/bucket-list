@@ -7,12 +7,55 @@
 {% block body %}
     <h2>{{ wish.title }}</h2>
     <div>Description : {{ wish.description }}</div>
-    <div>Author : {{ wish.author }}</div>
-    <div>Created at : {{ wish.dateCreated | date("Y-m-d")}}</div>
+    <div>Author : {{ wish.user.pseudo }}</div>
+    <div>Created at : {{ wish.dateCreated | date("Y-m-d") }}</div>
     <div>Category : {{ wish.category.name }}</div>
+    {% if app.user %}
+        {% if is_granted('ROLE_ADMIN') or app.user.pseudo == wish.user.pseudo %}
+            <div>
+                <a href="{{ path('wish_delete', {'id': wish.id}) }}">
+                    <button>Delete</button>
+                </a>
+            </div>
+        {% endif %}
+        {% if app.user.pseudo == wish.user.pseudo %}
+            <div>
+                <a href="{{ path('wish_update', {'id': wish.id}) }}">
+                    <button>Update</button>
+                </a>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <h3>Commentaires</h3>
     <div>
-        <a href="{{ path('wish_update', {'id': wish.id}) }}"><button>Update</button></a>
-        <a href="{{ path('wish_delete', {'id': wish.id}) }}"><button>Delete</button></a>
+        {{ form_start(commentForm) }}
+        {{ form_widget(commentForm) }}
+        <button>Post</button>
+        {{ form_end(commentForm) }}
+    </div>
+    <div>
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment-infos">Created by {{ comment.user.pseudo }}
+                    on {{ comment.dateCreated|date("Y-m-d H-m-s") }}
+                    {% if app.user %}
+                        {% if comment.user.userIdentifier == app.user.userIdentifier %}
+                            <a href="{{ path('comment_edit', {"id": comment.id}) }}"><button>Modify</button></a>
+                        {% endif %}
+                        {% if is_granted(["ROLE_ADMIN"]) or app.user.userIdentifier == comment.user.userIdentifier %}
+                            <a href="{{ path('comment_delete', {"id" : comment.id}) }}"><button>Delete</button></a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="comment-content">{{ comment.content }}</div>
+                <div class="comment-rating">
+                    {% for i in 0.. (comment.rating-1) %}
+                        <img src="{{ asset('img/star.png') }}" alt="star">
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

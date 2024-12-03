@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Update
+{% endblock %}
+
+{% block body %}
+    {%  embed 'views/comment-form.html.twig' %}
+        {% block formTitle %}
+            Update your comment !
+        {% endblock %}
+        {% block formSubmitLabel %}
+            Update !
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}
+
