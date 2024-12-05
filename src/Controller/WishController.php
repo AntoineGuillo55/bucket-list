@@ -63,8 +63,6 @@ class WishController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager){
 
         $wish = new Wish();
-
-
         $wishForm = $this->createForm(WishType::class, $wish);
 
         $wishForm->handleRequest($request);
