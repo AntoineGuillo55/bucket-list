@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Search{% endblock %}
+
+{% block body %}
+    <div>
+        {{ form(eventForm) }}
+    </div>
+    <div id="search-results">
+        {% for event in events %}
+            {% if event.fields.thumbnail is defined %}
+                <img src="{{ event.fields.thumbnail }}" alt="{{ event.fields.title_fr }}">
+            {% endif %}
+
+            <div>{{ event.fields.title_fr }}</div>
+            <div>{{ event.fields.daterange_fr }}</div>
+            {% if event.fields.location_name is defined %}
+                <div>{{ event.fields.location_name }}</div>
+            {% endif %}
+            {% if event.fields.location_address is defined %}
+                <div>{{ event.fields.location_address }}</div>
+            {% endif %}
+
+            <div>{{ event.fields.description_fr }}</div>
+        {% else %}
+            <div>Aucun résultat</div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block extraJS %}
+    <script>
+        // const resultContainer = document.getElementById("search-results");
+        // const form = document.getElementById("event-form");
+        //
+        //
+        // form.addEventListener("submit", function(){
+        //
+        //     let inputs = form.elements;
+        //     console.log(inputs);
+        //
+        // })
+    </script>
+
+{% endblock %}
+

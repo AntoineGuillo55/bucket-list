@@ -8,6 +8,7 @@ use App\Form\CommentType;
 use App\Form\WishType;
 use App\Repository\CommentRepository;
 use App\Repository\WishRepository;
+use App\Service\Censurator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class WishController extends AbstractController
     }
 
     #[Route('/detail/{id}', name: 'wish_detail', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function detail(Wish $wish, Request $request, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response {
+    public function detail(Wish $wish, Request $request, CommentRepository $commentRepository, EntityManagerInterface $entityManager, Censurator $censurator): Response {
 
         $comments = $commentRepository->findBy(['wish' => $wish]);
 
@@ -42,6 +43,7 @@ class WishController extends AbstractController
         if($commentForm->isSubmitted() && $commentForm->isValid()) {
             $comment->setUser($this->getUser());
             $comment->setWish($wish);
+            $comment->setContent($censurator->purify($comment->getContent()));
             $entityManager->persist($comment);
             $entityManager->flush();
 
